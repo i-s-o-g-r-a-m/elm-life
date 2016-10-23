@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>elm-life</title>
+        <style>
+            #body {
+                font-family: monospace;
+                font-size: 30px;
+            }
+        </style>
+    </head>
+
+    <body id="body">
+        <script type="text/javascript" src="main.js"></script>
+        <script type="text/javascript">
+            var div = document.getElementById('body');
+            var app = Elm.Main.embed(div);
+        </script>
+    </body>
+
+</html>
