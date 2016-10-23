@@ -42,6 +42,7 @@ colsCount =
     20
 
 
+chunkIntoRows : List a -> List (List a) -> List (List a)
 chunkIntoRows cells rows =
     if List.length cells > 0 then
         let
