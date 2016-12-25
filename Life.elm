@@ -2,18 +2,16 @@ module Main exposing (..)
 
 import Debug
 import Html exposing (Html, div, text)
-import Html.App as App
 import List
 import Maybe exposing (withDefault)
 import Random
-import String
 import Task
 import Time exposing (Time, second)
 import Matrix
 
 
 main =
-    App.program
+    Html.program
         { init = init
         , view = view
         , update = update
@@ -24,7 +22,7 @@ main =
 init : ( Model, Cmd Msg )
 init =
     ( { matrix = [ [] ] }
-    , Task.perform (\a -> a) (\t -> SeedMatrix t) Time.now
+    , Task.perform (\t -> SeedMatrix t) Time.now
     )
 
 
