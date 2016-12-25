@@ -1,37 +1,8 @@
-module Main exposing (..)
+module LifeMatrix exposing (evolve, initialMatrix)
 
-import Debug
-import Html exposing (Html, div, text)
-import List
+import Matrix
 import Maybe exposing (withDefault)
 import Random
-import Task
-import Time exposing (Time, second)
-import Matrix
-
-
-main =
-    Html.program
-        { init = init
-        , view = view
-        , update = update
-        , subscriptions = subscriptions
-        }
-
-
-init : ( Model, Cmd Msg )
-init =
-    ( { matrix = [ [] ] }
-    , Task.perform (\t -> SeedMatrix t) Time.now
-    )
-
-
-
--- MODEL
-
-
-type alias Model =
-    { matrix : List (List Int) }
 
 
 rowsCount =
@@ -71,13 +42,17 @@ initialMatrix randomSeed =
         chunkIntoRows cells []
 
 
+evolve matrix =
+    let
+        m =
+            Matrix.fromList matrix
 
--- UPDATE
-
-
-type Msg
-    = Tick Time
-    | SeedMatrix Float
+        transformed =
+            Matrix.mapWithLocation
+                (\location _ -> transformCell location m)
+                m
+    in
+        Matrix.toList transformed
 
 
 transformCell loc matrix =
@@ -119,53 +94,3 @@ transformCell loc matrix =
             0
         else
             cell
-
-
-evolve matrix =
-    let
-        m =
-            Matrix.fromList matrix
-
-        transformed =
-            Matrix.mapWithLocation
-                (\location _ -> transformCell location m)
-                m
-    in
-        Matrix.toList transformed
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        Tick _ ->
-            ( { model | matrix = (evolve model.matrix) }, Cmd.none )
-
-        SeedMatrix t ->
-            ( { model | matrix = (initialMatrix t) }, Cmd.none )
-
-
-
--- SUBSCRIPTIONS
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Time.every second Tick
-
-
-
--- VIEW
-
-
-view : Model -> Html Msg
-view model =
-    div [] (List.map (\row -> div [] (List.map renderCell row)) model.matrix)
-
-
-renderCell cell =
-    text
-        (if cell == 0 then
-            "-"
-         else
-            "o"
-        )
