@@ -10,9 +10,12 @@ view model =
 
 
 renderCell cell =
-    text
-        (if cell == 0 then
-            "-"
-         else
-            "o"
-        )
+    case cell of
+        Live ->
+            text "o"
+
+        Dead ->
+            text "-"
+
+        Resurrected ->
+            text "o"

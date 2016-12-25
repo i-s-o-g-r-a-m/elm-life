@@ -1,6 +1,5 @@
 module State exposing (..)
 
-import List
 import Task
 import Time exposing (Time, second)
 import Types exposing (..)

@@ -3,14 +3,30 @@ module LifeMatrix exposing (evolve, initialMatrix)
 import Matrix
 import Maybe exposing (withDefault)
 import Random
+import Types exposing (..)
 
 
-rowsCount =
+numberOfRows : number
+numberOfRows =
     20
 
 
-colsCount =
+numberOfColumns : number
+numberOfColumns =
     20
+
+
+numToCell : number -> Cell
+numToCell i =
+    if (i == 0) then
+        Dead
+    else
+        Live
+
+
+livingCell : Cell -> Bool
+livingCell cell =
+    cell == Live || cell == Resurrected
 
 
 chunkIntoRows : List a -> List (List a) -> List (List a)
@@ -18,7 +34,7 @@ chunkIntoRows cells rows =
     if List.length cells > 0 then
         let
             newRow =
-                [ List.take colsCount cells ]
+                [ List.take numberOfColumns cells ]
 
             rowsConcat =
                 if List.length rows > 0 then
@@ -26,22 +42,23 @@ chunkIntoRows cells rows =
                 else
                     newRow
         in
-            chunkIntoRows (List.drop colsCount cells) rowsConcat
+            chunkIntoRows (List.drop numberOfColumns cells) rowsConcat
     else
         rows
 
 
-initialMatrix : Float -> List (List Int)
+initialMatrix : Float -> List (List Cell)
 initialMatrix randomSeed =
     let
         ( cells, _ ) =
             Random.step
-                (Random.list (rowsCount * colsCount) (Random.int 0 1))
+                (Random.list (numberOfRows * numberOfColumns) (Random.int 0 1))
                 (Random.initialSeed (round randomSeed))
     in
-        chunkIntoRows cells []
+        chunkIntoRows (List.map (\c -> numToCell c) cells) []
 
 
+evolve : List (List Cell) -> List (List Cell)
 evolve matrix =
     let
         m =
@@ -55,10 +72,11 @@ evolve matrix =
         Matrix.toList transformed
 
 
+transformCell : Matrix.Location -> Matrix.Matrix Cell -> Cell
 transformCell loc matrix =
     let
         cell =
-            (withDefault 0 (Matrix.get loc matrix))
+            (withDefault Dead (Matrix.get loc matrix))
 
         row =
             (Matrix.row loc)
@@ -67,7 +85,7 @@ transformCell loc matrix =
             (Matrix.col loc)
 
         neighbors =
-            List.map (\x -> (withDefault 0 x))
+            List.map (\x -> (withDefault Dead x))
                 [ (Matrix.get ( row - 1, col - 1 ) matrix)
                 , (Matrix.get ( row - 1, col ) matrix)
                 , (Matrix.get ( row - 1, col + 1 ) matrix)
@@ -79,18 +97,23 @@ transformCell loc matrix =
                 ]
 
         liveNeighbors =
-            List.length (List.filter (\x -> x == 1) neighbors)
+            List.length (List.filter livingCell neighbors)
 
-        deadNeighbors =
-            List.length (List.filter (\x -> x == 0) neighbors)
+        isAlive =
+            livingCell cell
     in
-        if cell == 0 && (liveNeighbors == 3) then
-            1
+        if not isAlive && (liveNeighbors == 3) then
+            --- reproduction
+            Resurrected
         else if (liveNeighbors < 2) then
-            0
-        else if cell == 1 && ((liveNeighbors > 1) && (liveNeighbors < 4)) then
+            -- loneliness
+            Dead
+        else if isAlive && (liveNeighbors > 1) && (liveNeighbors < 4) then
+            -- stasis
             cell
         else if (liveNeighbors > 3) then
-            0
+            -- overcrowding
+            Dead
         else
+            -- in practice: already dead, two neighbors
             cell
