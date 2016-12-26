@@ -1,5 +1,6 @@
 module LifeMatrix exposing (evolve, initialMatrix)
 
+import Debug
 import Matrix
 import Maybe exposing (withDefault)
 import Random
@@ -18,10 +19,12 @@ numberOfColumns =
 
 numToCell : number -> Cell
 numToCell i =
-    if (i == 0) then
-        Dead
-    else
-        Live
+    case (i) of
+        0 ->
+            Dead
+
+        _ ->
+            Live
 
 
 livingCell : Cell -> Bool
