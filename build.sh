@@ -1,1 +1,1 @@
-elm-make src/App.elm --output main.js
+elm-make src/App.elm --output docs/life.js
