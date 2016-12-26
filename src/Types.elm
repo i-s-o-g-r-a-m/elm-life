@@ -15,4 +15,4 @@ type Msg
 type Cell
     = Live
     | Dead
-    | Resurrected
+    | Reborn

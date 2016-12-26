@@ -8,7 +8,7 @@ import Types exposing (..)
 
 numberOfRows : number
 numberOfRows =
-    20
+    10
 
 
 numberOfColumns : number
@@ -26,7 +26,7 @@ numToCell i =
 
 livingCell : Cell -> Bool
 livingCell cell =
-    cell == Live || cell == Resurrected
+    cell == Live || cell == Reborn
 
 
 chunkIntoRows : List a -> List (List a) -> List (List a)
@@ -104,7 +104,7 @@ transformCell loc matrix =
     in
         if not isAlive && (liveNeighbors == 3) then
             --- reproduction
-            Resurrected
+            Reborn
         else if (liveNeighbors < 2) then
             -- loneliness
             Dead

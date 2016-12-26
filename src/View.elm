@@ -1,21 +1,35 @@
 module View exposing (view)
 
-import Html exposing (Html, div, text)
+import Html exposing (Html, div)
+import Html.Attributes exposing (style)
+import Shapes exposing (..)
+import Svg exposing (svg)
+import Svg.Attributes exposing (version, x, y, width, height)
 import Types exposing (..)
 
 
 view : Model -> Html Msg
 view model =
-    div [] (List.map (\row -> div [] (List.map renderCell row)) model.matrix)
+    div
+        [ style [ ( "text-align", "center" ) ] ]
+        (List.map (\row -> div [] (List.map renderCell row)) model.matrix)
 
 
 renderCell cell =
-    case cell of
-        Live ->
-            text "o"
+    svg
+        [ version "1.1"
+        , x "0"
+        , y "0"
+        , width "55"
+        , height "70"
+        ]
+        (case (cell) of
+            Live ->
+                [ disc magenta, cross yellow ]
 
-        Dead ->
-            text "-"
+            Dead ->
+                [ cross yellow ]
 
-        Resurrected ->
-            text "o"
+            Reborn ->
+                [ disc magenta, cross yellow, diamonds cyan ]
+        )
