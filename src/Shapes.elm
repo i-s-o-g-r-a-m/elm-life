@@ -13,7 +13,7 @@ yellow =
 
 
 cyan =
-    "#53dbe2"
+    "#3ed9e8"
 
 
 disc color =
@@ -27,8 +27,8 @@ disc color =
 cross color =
     g
         []
-        [ rect [ x "21", y "17", width "14", height "50", fill color, fillOpacity ".6" ] []
-        , rect [ x "3", y "35", width "50", height "12", fill color, fillOpacity ".6" ] []
+        [ rect [ x "22", y "18", width "12", height "48", fill color, fillOpacity ".6" ] []
+        , rect [ x "3", y "36", width "50", height "12", fill color, fillOpacity ".6" ] []
         ]
 
 

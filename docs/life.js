@@ -9760,16 +9760,16 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$cross = function (color) {
 				_elm_lang$svg$Svg$rect,
 				{
 					ctor: '::',
-					_0: _elm_lang$svg$Svg_Attributes$x('21'),
+					_0: _elm_lang$svg$Svg_Attributes$x('22'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$svg$Svg_Attributes$y('17'),
+						_0: _elm_lang$svg$Svg_Attributes$y('18'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$svg$Svg_Attributes$width('14'),
+							_0: _elm_lang$svg$Svg_Attributes$width('12'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$svg$Svg_Attributes$height('50'),
+								_0: _elm_lang$svg$Svg_Attributes$height('48'),
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$svg$Svg_Attributes$fill(color),
@@ -9793,7 +9793,7 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$cross = function (color) {
 						_0: _elm_lang$svg$Svg_Attributes$x('3'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$svg$Svg_Attributes$y('35'),
+							_0: _elm_lang$svg$Svg_Attributes$y('36'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$svg$Svg_Attributes$width('50'),
@@ -9878,7 +9878,7 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$disc = function (color) {
 			}
 		});
 };
-var _i_s_o_g_r_a_m$elm_life$Shapes$cyan = '#53dbe2';
+var _i_s_o_g_r_a_m$elm_life$Shapes$cyan = '#3ed9e8';
 var _i_s_o_g_r_a_m$elm_life$Shapes$yellow = '#ffff00';
 var _i_s_o_g_r_a_m$elm_life$Shapes$magenta = '#ff00ff';
 
