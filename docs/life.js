@@ -9896,7 +9896,7 @@ var _i_s_o_g_r_a_m$elm_life$View$renderCell = function (cell) {
 					_0: _elm_lang$svg$Svg_Attributes$y('0'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$svg$Svg_Attributes$width('55'),
+						_0: _elm_lang$svg$Svg_Attributes$width('60'),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$svg$Svg_Attributes$height('70'),
@@ -9960,7 +9960,16 @@ var _i_s_o_g_r_a_m$elm_life$View$view = function (model) {
 			function (row) {
 				return A2(
 					_elm_lang$html$Html$div,
-					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$style(
+							{
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'margin-top', _1: '-10px'},
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					},
 					A2(_elm_lang$core$List$map, _i_s_o_g_r_a_m$elm_life$View$renderCell, row));
 			},
 			model.matrix));

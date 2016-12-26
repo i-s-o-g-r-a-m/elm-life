@@ -12,7 +12,7 @@ view : Model -> Html Msg
 view model =
     div
         [ style [ ( "text-align", "center" ) ] ]
-        (List.map (\row -> div [] (List.map renderCell row)) model.matrix)
+        (List.map (\row -> div [ style [ ( "margin-top", "-10px" ) ] ] (List.map renderCell row)) model.matrix)
 
 
 renderCell cell =
@@ -20,7 +20,7 @@ renderCell cell =
         [ version "1.1"
         , x "0"
         , y "0"
-        , width "55"
+        , width "60"
         , height "70"
         ]
         (case (cell) of
