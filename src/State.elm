@@ -9,7 +9,7 @@ import LifeMatrix exposing (evolve, initialMatrix)
 init : ( Model, Cmd Msg )
 init =
     ( { matrix = [ [] ] }
-    , Task.perform (\t -> SeedMatrix t) Time.now
+    , Task.perform SeedMatrix Time.now
     )
 
 

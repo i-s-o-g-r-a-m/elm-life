@@ -58,7 +58,7 @@ initialMatrix randomSeed =
                 (Random.list (numberOfRows * numberOfColumns) (Random.int 0 1))
                 (Random.initialSeed (round randomSeed))
     in
-        chunkIntoRows (List.map (\c -> numToCell c) cells) []
+        chunkIntoRows (List.map numToCell cells) []
 
 
 evolve : List (List Cell) -> List (List Cell)
