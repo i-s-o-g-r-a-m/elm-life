@@ -9868,10 +9868,13 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$disc = function (color) {
 			}
 		});
 };
-var _i_s_o_g_r_a_m$elm_life$Shapes$cyan = '#3ed9e8';
+var _i_s_o_g_r_a_m$elm_life$Shapes$purple = '#ff44e3';
 var _i_s_o_g_r_a_m$elm_life$Shapes$yellow = '#ffff00';
-var _i_s_o_g_r_a_m$elm_life$Shapes$magenta = '#ff00ff';
+var _i_s_o_g_r_a_m$elm_life$Shapes$green = '#2bff43';
 
+var _i_s_o_g_r_a_m$elm_life$View$purpleDiamonds = _i_s_o_g_r_a_m$elm_life$Shapes$diamonds(_i_s_o_g_r_a_m$elm_life$Shapes$purple);
+var _i_s_o_g_r_a_m$elm_life$View$yellowCross = _i_s_o_g_r_a_m$elm_life$Shapes$cross(_i_s_o_g_r_a_m$elm_life$Shapes$yellow);
+var _i_s_o_g_r_a_m$elm_life$View$greenDisc = _i_s_o_g_r_a_m$elm_life$Shapes$disc(_i_s_o_g_r_a_m$elm_life$Shapes$green);
 var _i_s_o_g_r_a_m$elm_life$View$renderCell = function (cell) {
 	return A2(
 		_elm_lang$svg$Svg$svg,
@@ -9902,29 +9905,29 @@ var _i_s_o_g_r_a_m$elm_life$View$renderCell = function (cell) {
 				case 'Live':
 					return {
 						ctor: '::',
-						_0: _i_s_o_g_r_a_m$elm_life$Shapes$disc(_i_s_o_g_r_a_m$elm_life$Shapes$magenta),
+						_0: _i_s_o_g_r_a_m$elm_life$View$greenDisc,
 						_1: {
 							ctor: '::',
-							_0: _i_s_o_g_r_a_m$elm_life$Shapes$cross(_i_s_o_g_r_a_m$elm_life$Shapes$yellow),
+							_0: _i_s_o_g_r_a_m$elm_life$View$yellowCross,
 							_1: {ctor: '[]'}
 						}
 					};
 				case 'Dead':
 					return {
 						ctor: '::',
-						_0: _i_s_o_g_r_a_m$elm_life$Shapes$cross(_i_s_o_g_r_a_m$elm_life$Shapes$yellow),
+						_0: _i_s_o_g_r_a_m$elm_life$View$yellowCross,
 						_1: {ctor: '[]'}
 					};
 				default:
 					return {
 						ctor: '::',
-						_0: _i_s_o_g_r_a_m$elm_life$Shapes$disc(_i_s_o_g_r_a_m$elm_life$Shapes$magenta),
+						_0: _i_s_o_g_r_a_m$elm_life$View$greenDisc,
 						_1: {
 							ctor: '::',
-							_0: _i_s_o_g_r_a_m$elm_life$Shapes$cross(_i_s_o_g_r_a_m$elm_life$Shapes$yellow),
+							_0: _i_s_o_g_r_a_m$elm_life$View$yellowCross,
 							_1: {
 								ctor: '::',
-								_0: _i_s_o_g_r_a_m$elm_life$Shapes$diamonds(_i_s_o_g_r_a_m$elm_life$Shapes$cyan),
+								_0: _i_s_o_g_r_a_m$elm_life$View$purpleDiamonds,
 								_1: {ctor: '[]'}
 							}
 						}
