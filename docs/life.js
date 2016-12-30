@@ -9550,12 +9550,7 @@ var _i_s_o_g_r_a_m$elm_life$LifeMatrix$initialMatrix = function (randomSeed) {
 	var cells = _p2._0;
 	return A2(
 		_i_s_o_g_r_a_m$elm_life$LifeMatrix$chunkIntoRows,
-		A2(
-			_elm_lang$core$List$map,
-			function (c) {
-				return _i_s_o_g_r_a_m$elm_life$LifeMatrix$numToCell(c);
-			},
-			cells),
+		A2(_elm_lang$core$List$map, _i_s_o_g_r_a_m$elm_life$LifeMatrix$numToCell, cells),
 		{ctor: '[]'});
 };
 
@@ -9596,12 +9591,7 @@ var _i_s_o_g_r_a_m$elm_life$State$init = {
 			_1: {ctor: '[]'}
 		}
 	},
-	_1: A2(
-		_elm_lang$core$Task$perform,
-		function (t) {
-			return _i_s_o_g_r_a_m$elm_life$Types$SeedMatrix(t);
-		},
-		_elm_lang$core$Time$now)
+	_1: A2(_elm_lang$core$Task$perform, _i_s_o_g_r_a_m$elm_life$Types$SeedMatrix, _elm_lang$core$Time$now)
 };
 
 var _i_s_o_g_r_a_m$elm_life$Shapes$diamonds = function (color) {
