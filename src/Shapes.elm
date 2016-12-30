@@ -4,16 +4,16 @@ import Svg exposing (..)
 import Svg.Attributes exposing (..)
 
 
-magenta =
-    "#ff00ff"
+green =
+    "#2bff43"
 
 
 yellow =
     "#ffff00"
 
 
-cyan =
-    "#3ed9e8"
+purple =
+    "#ff44e3"
 
 
 disc color =
