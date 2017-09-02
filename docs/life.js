@@ -9622,7 +9622,7 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$diamonds = function (color) {
 										_0: _elm_lang$svg$Svg_Attributes$transform('rotate(45)'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.6'),
+											_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.5'),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -9656,7 +9656,7 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$diamonds = function (color) {
 											_0: _elm_lang$svg$Svg_Attributes$transform('rotate(45)'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.6'),
+												_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.5'),
 												_1: {ctor: '[]'}
 											}
 										}
@@ -9690,7 +9690,7 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$diamonds = function (color) {
 												_0: _elm_lang$svg$Svg_Attributes$transform('rotate(45)'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.6'),
+													_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.5'),
 													_1: {ctor: '[]'}
 												}
 											}
@@ -9724,7 +9724,7 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$diamonds = function (color) {
 													_0: _elm_lang$svg$Svg_Attributes$transform('rotate(45)'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.6'),
+														_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.5'),
 														_1: {ctor: '[]'}
 													}
 												}
@@ -9765,7 +9765,7 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$cross = function (color) {
 									_0: _elm_lang$svg$Svg_Attributes$fill(color),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.3'),
+										_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.4'),
 										_1: {ctor: '[]'}
 									}
 								}
@@ -9786,7 +9786,7 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$cross = function (color) {
 							_0: _elm_lang$svg$Svg_Attributes$y('36'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$svg$Svg_Attributes$width('50'),
+								_0: _elm_lang$svg$Svg_Attributes$width('49'),
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$svg$Svg_Attributes$height('12'),
@@ -9795,7 +9795,7 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$cross = function (color) {
 										_0: _elm_lang$svg$Svg_Attributes$fill(color),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.3'),
+											_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.4'),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -9824,13 +9824,13 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$disc = function (color) {
 						_0: _elm_lang$svg$Svg_Attributes$cy('42'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$svg$Svg_Attributes$r('24'),
+							_0: _elm_lang$svg$Svg_Attributes$r('25'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$svg$Svg_Attributes$fill(color),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.8'),
+									_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.55'),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -9868,13 +9868,13 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$disc = function (color) {
 			}
 		});
 };
-var _i_s_o_g_r_a_m$elm_life$Shapes$yellow = '#FFFF00';
-var _i_s_o_g_r_a_m$elm_life$Shapes$magenta = '#ff00ff';
-var _i_s_o_g_r_a_m$elm_life$Shapes$cyan = '#70ebff';
+var _i_s_o_g_r_a_m$elm_life$Shapes$green = '#08f42c';
+var _i_s_o_g_r_a_m$elm_life$Shapes$blue = '#1e74ff';
+var _i_s_o_g_r_a_m$elm_life$Shapes$red = '#ff2626';
 
-var _i_s_o_g_r_a_m$elm_life$View$cyanDiamonds = _i_s_o_g_r_a_m$elm_life$Shapes$diamonds(_i_s_o_g_r_a_m$elm_life$Shapes$cyan);
-var _i_s_o_g_r_a_m$elm_life$View$magentaCross = _i_s_o_g_r_a_m$elm_life$Shapes$cross(_i_s_o_g_r_a_m$elm_life$Shapes$magenta);
-var _i_s_o_g_r_a_m$elm_life$View$yellowDisc = _i_s_o_g_r_a_m$elm_life$Shapes$disc(_i_s_o_g_r_a_m$elm_life$Shapes$yellow);
+var _i_s_o_g_r_a_m$elm_life$View$greenDiamonds = _i_s_o_g_r_a_m$elm_life$Shapes$diamonds(_i_s_o_g_r_a_m$elm_life$Shapes$green);
+var _i_s_o_g_r_a_m$elm_life$View$redCross = _i_s_o_g_r_a_m$elm_life$Shapes$cross(_i_s_o_g_r_a_m$elm_life$Shapes$red);
+var _i_s_o_g_r_a_m$elm_life$View$blueDisc = _i_s_o_g_r_a_m$elm_life$Shapes$disc(_i_s_o_g_r_a_m$elm_life$Shapes$blue);
 var _i_s_o_g_r_a_m$elm_life$View$renderCell = function (cell) {
 	return A2(
 		_elm_lang$svg$Svg$svg,
@@ -9905,29 +9905,29 @@ var _i_s_o_g_r_a_m$elm_life$View$renderCell = function (cell) {
 				case 'Live':
 					return {
 						ctor: '::',
-						_0: _i_s_o_g_r_a_m$elm_life$View$yellowDisc,
+						_0: _i_s_o_g_r_a_m$elm_life$View$blueDisc,
 						_1: {
 							ctor: '::',
-							_0: _i_s_o_g_r_a_m$elm_life$View$magentaCross,
+							_0: _i_s_o_g_r_a_m$elm_life$View$redCross,
 							_1: {ctor: '[]'}
 						}
 					};
 				case 'Dead':
 					return {
 						ctor: '::',
-						_0: _i_s_o_g_r_a_m$elm_life$View$magentaCross,
+						_0: _i_s_o_g_r_a_m$elm_life$View$redCross,
 						_1: {ctor: '[]'}
 					};
 				default:
 					return {
 						ctor: '::',
-						_0: _i_s_o_g_r_a_m$elm_life$View$yellowDisc,
+						_0: _i_s_o_g_r_a_m$elm_life$View$blueDisc,
 						_1: {
 							ctor: '::',
-							_0: _i_s_o_g_r_a_m$elm_life$View$magentaCross,
+							_0: _i_s_o_g_r_a_m$elm_life$View$redCross,
 							_1: {
 								ctor: '::',
-								_0: _i_s_o_g_r_a_m$elm_life$View$cyanDiamonds,
+								_0: _i_s_o_g_r_a_m$elm_life$View$greenDiamonds,
 								_1: {ctor: '[]'}
 							}
 						}
