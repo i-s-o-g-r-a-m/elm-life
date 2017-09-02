@@ -9765,7 +9765,7 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$cross = function (color) {
 									_0: _elm_lang$svg$Svg_Attributes$fill(color),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.6'),
+										_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.3'),
 										_1: {ctor: '[]'}
 									}
 								}
@@ -9795,7 +9795,7 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$cross = function (color) {
 										_0: _elm_lang$svg$Svg_Attributes$fill(color),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.6'),
+											_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.3'),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -9830,7 +9830,7 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$disc = function (color) {
 								_0: _elm_lang$svg$Svg_Attributes$fill(color),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.6'),
+									_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.8'),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -9868,13 +9868,13 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$disc = function (color) {
 			}
 		});
 };
-var _i_s_o_g_r_a_m$elm_life$Shapes$purple = '#ff44e3';
-var _i_s_o_g_r_a_m$elm_life$Shapes$yellow = '#ffff00';
-var _i_s_o_g_r_a_m$elm_life$Shapes$green = '#2bff43';
+var _i_s_o_g_r_a_m$elm_life$Shapes$yellow = '#FFFF00';
+var _i_s_o_g_r_a_m$elm_life$Shapes$magenta = '#ff00ff';
+var _i_s_o_g_r_a_m$elm_life$Shapes$cyan = '#70ebff';
 
-var _i_s_o_g_r_a_m$elm_life$View$purpleDiamonds = _i_s_o_g_r_a_m$elm_life$Shapes$diamonds(_i_s_o_g_r_a_m$elm_life$Shapes$purple);
-var _i_s_o_g_r_a_m$elm_life$View$yellowCross = _i_s_o_g_r_a_m$elm_life$Shapes$cross(_i_s_o_g_r_a_m$elm_life$Shapes$yellow);
-var _i_s_o_g_r_a_m$elm_life$View$greenDisc = _i_s_o_g_r_a_m$elm_life$Shapes$disc(_i_s_o_g_r_a_m$elm_life$Shapes$green);
+var _i_s_o_g_r_a_m$elm_life$View$cyanDiamonds = _i_s_o_g_r_a_m$elm_life$Shapes$diamonds(_i_s_o_g_r_a_m$elm_life$Shapes$cyan);
+var _i_s_o_g_r_a_m$elm_life$View$magentaCross = _i_s_o_g_r_a_m$elm_life$Shapes$cross(_i_s_o_g_r_a_m$elm_life$Shapes$magenta);
+var _i_s_o_g_r_a_m$elm_life$View$yellowDisc = _i_s_o_g_r_a_m$elm_life$Shapes$disc(_i_s_o_g_r_a_m$elm_life$Shapes$yellow);
 var _i_s_o_g_r_a_m$elm_life$View$renderCell = function (cell) {
 	return A2(
 		_elm_lang$svg$Svg$svg,
@@ -9905,29 +9905,29 @@ var _i_s_o_g_r_a_m$elm_life$View$renderCell = function (cell) {
 				case 'Live':
 					return {
 						ctor: '::',
-						_0: _i_s_o_g_r_a_m$elm_life$View$greenDisc,
+						_0: _i_s_o_g_r_a_m$elm_life$View$yellowDisc,
 						_1: {
 							ctor: '::',
-							_0: _i_s_o_g_r_a_m$elm_life$View$yellowCross,
+							_0: _i_s_o_g_r_a_m$elm_life$View$magentaCross,
 							_1: {ctor: '[]'}
 						}
 					};
 				case 'Dead':
 					return {
 						ctor: '::',
-						_0: _i_s_o_g_r_a_m$elm_life$View$yellowCross,
+						_0: _i_s_o_g_r_a_m$elm_life$View$magentaCross,
 						_1: {ctor: '[]'}
 					};
 				default:
 					return {
 						ctor: '::',
-						_0: _i_s_o_g_r_a_m$elm_life$View$greenDisc,
+						_0: _i_s_o_g_r_a_m$elm_life$View$yellowDisc,
 						_1: {
 							ctor: '::',
-							_0: _i_s_o_g_r_a_m$elm_life$View$yellowCross,
+							_0: _i_s_o_g_r_a_m$elm_life$View$magentaCross,
 							_1: {
 								ctor: '::',
-								_0: _i_s_o_g_r_a_m$elm_life$View$purpleDiamonds,
+								_0: _i_s_o_g_r_a_m$elm_life$View$cyanDiamonds,
 								_1: {ctor: '[]'}
 							}
 						}
