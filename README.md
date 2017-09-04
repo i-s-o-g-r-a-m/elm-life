@@ -2,9 +2,9 @@
 
 See it in the browser [here](https://i-s-o-g-r-a-m.github.io/elm-life/).
 
-The shapes refer to the work of Karel Martens -- in particular, these
-configurations from the [cover of OASE 65](http://www.oasejournal.nl/en/Issues/65)
-were used as a reference:
+The shapes refer rather clumsily to the work of Karel Martens --
+in particular, these configurations from the
+[cover of OASE 65](http://www.oasejournal.nl/en/Issues/65):
 
 ![KM ornaments](https://i-s-o-g-r-a-m.github.io/elm-life/km-ornament.png)
 
