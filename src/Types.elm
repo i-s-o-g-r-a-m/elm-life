@@ -1,6 +1,7 @@
 module Types exposing (..)
 
 import Time exposing (Time)
+import Window
 
 
 type alias Model =
@@ -9,7 +10,8 @@ type alias Model =
 
 type Msg
     = Tick Time
-    | SeedMatrix Float
+    | SeedMatrix ( Float, Window.Size )
+    | ResizeWindow Window.Size
 
 
 type Cell

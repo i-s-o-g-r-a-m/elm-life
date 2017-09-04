@@ -6676,6 +6676,196 @@ var _elm_lang$core$Json_Decode$bool = _elm_lang$core$Native_Json.decodePrimitive
 var _elm_lang$core$Json_Decode$string = _elm_lang$core$Native_Json.decodePrimitive('string');
 var _elm_lang$core$Json_Decode$Decoder = {ctor: 'Decoder'};
 
+var _elm_lang$core$Process$kill = _elm_lang$core$Native_Scheduler.kill;
+var _elm_lang$core$Process$sleep = _elm_lang$core$Native_Scheduler.sleep;
+var _elm_lang$core$Process$spawn = _elm_lang$core$Native_Scheduler.spawn;
+
+var _elm_lang$dom$Native_Dom = function() {
+
+var fakeNode = {
+	addEventListener: function() {},
+	removeEventListener: function() {}
+};
+
+var onDocument = on(typeof document !== 'undefined' ? document : fakeNode);
+var onWindow = on(typeof window !== 'undefined' ? window : fakeNode);
+
+function on(node)
+{
+	return function(eventName, decoder, toTask)
+	{
+		return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback) {
+
+			function performTask(event)
+			{
+				var result = A2(_elm_lang$core$Json_Decode$decodeValue, decoder, event);
+				if (result.ctor === 'Ok')
+				{
+					_elm_lang$core$Native_Scheduler.rawSpawn(toTask(result._0));
+				}
+			}
+
+			node.addEventListener(eventName, performTask);
+
+			return function()
+			{
+				node.removeEventListener(eventName, performTask);
+			};
+		});
+	};
+}
+
+var rAF = typeof requestAnimationFrame !== 'undefined'
+	? requestAnimationFrame
+	: function(callback) { callback(); };
+
+function withNode(id, doStuff)
+{
+	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
+	{
+		rAF(function()
+		{
+			var node = document.getElementById(id);
+			if (node === null)
+			{
+				callback(_elm_lang$core$Native_Scheduler.fail({ ctor: 'NotFound', _0: id }));
+				return;
+			}
+			callback(_elm_lang$core$Native_Scheduler.succeed(doStuff(node)));
+		});
+	});
+}
+
+
+// FOCUS
+
+function focus(id)
+{
+	return withNode(id, function(node) {
+		node.focus();
+		return _elm_lang$core$Native_Utils.Tuple0;
+	});
+}
+
+function blur(id)
+{
+	return withNode(id, function(node) {
+		node.blur();
+		return _elm_lang$core$Native_Utils.Tuple0;
+	});
+}
+
+
+// SCROLLING
+
+function getScrollTop(id)
+{
+	return withNode(id, function(node) {
+		return node.scrollTop;
+	});
+}
+
+function setScrollTop(id, desiredScrollTop)
+{
+	return withNode(id, function(node) {
+		node.scrollTop = desiredScrollTop;
+		return _elm_lang$core$Native_Utils.Tuple0;
+	});
+}
+
+function toBottom(id)
+{
+	return withNode(id, function(node) {
+		node.scrollTop = node.scrollHeight;
+		return _elm_lang$core$Native_Utils.Tuple0;
+	});
+}
+
+function getScrollLeft(id)
+{
+	return withNode(id, function(node) {
+		return node.scrollLeft;
+	});
+}
+
+function setScrollLeft(id, desiredScrollLeft)
+{
+	return withNode(id, function(node) {
+		node.scrollLeft = desiredScrollLeft;
+		return _elm_lang$core$Native_Utils.Tuple0;
+	});
+}
+
+function toRight(id)
+{
+	return withNode(id, function(node) {
+		node.scrollLeft = node.scrollWidth;
+		return _elm_lang$core$Native_Utils.Tuple0;
+	});
+}
+
+
+// SIZE
+
+function width(options, id)
+{
+	return withNode(id, function(node) {
+		switch (options.ctor)
+		{
+			case 'Content':
+				return node.scrollWidth;
+			case 'VisibleContent':
+				return node.clientWidth;
+			case 'VisibleContentWithBorders':
+				return node.offsetWidth;
+			case 'VisibleContentWithBordersAndMargins':
+				var rect = node.getBoundingClientRect();
+				return rect.right - rect.left;
+		}
+	});
+}
+
+function height(options, id)
+{
+	return withNode(id, function(node) {
+		switch (options.ctor)
+		{
+			case 'Content':
+				return node.scrollHeight;
+			case 'VisibleContent':
+				return node.clientHeight;
+			case 'VisibleContentWithBorders':
+				return node.offsetHeight;
+			case 'VisibleContentWithBordersAndMargins':
+				var rect = node.getBoundingClientRect();
+				return rect.bottom - rect.top;
+		}
+	});
+}
+
+return {
+	onDocument: F3(onDocument),
+	onWindow: F3(onWindow),
+
+	focus: focus,
+	blur: blur,
+
+	getScrollTop: getScrollTop,
+	setScrollTop: F2(setScrollTop),
+	getScrollLeft: getScrollLeft,
+	setScrollLeft: F2(setScrollLeft),
+	toBottom: toBottom,
+	toRight: toRight,
+
+	height: F2(height),
+	width: F2(width)
+};
+
+}();
+
+var _elm_lang$dom$Dom_LowLevel$onWindow = _elm_lang$dom$Native_Dom.onWindow;
+var _elm_lang$dom$Dom_LowLevel$onDocument = _elm_lang$dom$Native_Dom.onDocument;
+
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrap;
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrapWithFlags;
 
@@ -9405,8 +9595,133 @@ var _elm_lang$svg$Svg_Attributes$accumulate = _elm_lang$virtual_dom$VirtualDom$a
 var _elm_lang$svg$Svg_Attributes$accelerate = _elm_lang$virtual_dom$VirtualDom$attribute('accelerate');
 var _elm_lang$svg$Svg_Attributes$accentHeight = _elm_lang$virtual_dom$VirtualDom$attribute('accent-height');
 
+var _elm_lang$window$Native_Window = function()
+{
+
+var size = _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)	{
+	callback(_elm_lang$core$Native_Scheduler.succeed({
+		width: window.innerWidth,
+		height: window.innerHeight
+	}));
+});
+
+return {
+	size: size
+};
+
+}();
+var _elm_lang$window$Window_ops = _elm_lang$window$Window_ops || {};
+_elm_lang$window$Window_ops['&>'] = F2(
+	function (task1, task2) {
+		return A2(
+			_elm_lang$core$Task$andThen,
+			function (_p0) {
+				return task2;
+			},
+			task1);
+	});
+var _elm_lang$window$Window$onSelfMsg = F3(
+	function (router, dimensions, state) {
+		var _p1 = state;
+		if (_p1.ctor === 'Nothing') {
+			return _elm_lang$core$Task$succeed(state);
+		} else {
+			var send = function (_p2) {
+				var _p3 = _p2;
+				return A2(
+					_elm_lang$core$Platform$sendToApp,
+					router,
+					_p3._0(dimensions));
+			};
+			return A2(
+				_elm_lang$window$Window_ops['&>'],
+				_elm_lang$core$Task$sequence(
+					A2(_elm_lang$core$List$map, send, _p1._0.subs)),
+				_elm_lang$core$Task$succeed(state));
+		}
+	});
+var _elm_lang$window$Window$init = _elm_lang$core$Task$succeed(_elm_lang$core$Maybe$Nothing);
+var _elm_lang$window$Window$size = _elm_lang$window$Native_Window.size;
+var _elm_lang$window$Window$width = A2(
+	_elm_lang$core$Task$map,
+	function (_) {
+		return _.width;
+	},
+	_elm_lang$window$Window$size);
+var _elm_lang$window$Window$height = A2(
+	_elm_lang$core$Task$map,
+	function (_) {
+		return _.height;
+	},
+	_elm_lang$window$Window$size);
+var _elm_lang$window$Window$onEffects = F3(
+	function (router, newSubs, oldState) {
+		var _p4 = {ctor: '_Tuple2', _0: oldState, _1: newSubs};
+		if (_p4._0.ctor === 'Nothing') {
+			if (_p4._1.ctor === '[]') {
+				return _elm_lang$core$Task$succeed(_elm_lang$core$Maybe$Nothing);
+			} else {
+				return A2(
+					_elm_lang$core$Task$andThen,
+					function (pid) {
+						return _elm_lang$core$Task$succeed(
+							_elm_lang$core$Maybe$Just(
+								{subs: newSubs, pid: pid}));
+					},
+					_elm_lang$core$Process$spawn(
+						A3(
+							_elm_lang$dom$Dom_LowLevel$onWindow,
+							'resize',
+							_elm_lang$core$Json_Decode$succeed(
+								{ctor: '_Tuple0'}),
+							function (_p5) {
+								return A2(
+									_elm_lang$core$Task$andThen,
+									_elm_lang$core$Platform$sendToSelf(router),
+									_elm_lang$window$Window$size);
+							})));
+			}
+		} else {
+			if (_p4._1.ctor === '[]') {
+				return A2(
+					_elm_lang$window$Window_ops['&>'],
+					_elm_lang$core$Process$kill(_p4._0._0.pid),
+					_elm_lang$core$Task$succeed(_elm_lang$core$Maybe$Nothing));
+			} else {
+				return _elm_lang$core$Task$succeed(
+					_elm_lang$core$Maybe$Just(
+						{subs: newSubs, pid: _p4._0._0.pid}));
+			}
+		}
+	});
+var _elm_lang$window$Window$subscription = _elm_lang$core$Native_Platform.leaf('Window');
+var _elm_lang$window$Window$Size = F2(
+	function (a, b) {
+		return {width: a, height: b};
+	});
+var _elm_lang$window$Window$MySub = function (a) {
+	return {ctor: 'MySub', _0: a};
+};
+var _elm_lang$window$Window$resizes = function (tagger) {
+	return _elm_lang$window$Window$subscription(
+		_elm_lang$window$Window$MySub(tagger));
+};
+var _elm_lang$window$Window$subMap = F2(
+	function (func, _p6) {
+		var _p7 = _p6;
+		return _elm_lang$window$Window$MySub(
+			function (_p8) {
+				return func(
+					_p7._0(_p8));
+			});
+	});
+_elm_lang$core$Native_Platform.effectManagers['Window'] = {pkg: 'elm-lang/window', init: _elm_lang$window$Window$init, onEffects: _elm_lang$window$Window$onEffects, onSelfMsg: _elm_lang$window$Window$onSelfMsg, tag: 'sub', subMap: _elm_lang$window$Window$subMap};
+
 var _i_s_o_g_r_a_m$elm_life$Types$Model = function (a) {
 	return {matrix: a};
+};
+var _i_s_o_g_r_a_m$elm_life$Types$ResizeWindow = function (a) {
+	return {ctor: 'ResizeWindow', _0: a};
 };
 var _i_s_o_g_r_a_m$elm_life$Types$SeedMatrix = function (a) {
 	return {ctor: 'SeedMatrix', _0: a};
@@ -9417,186 +9732,6 @@ var _i_s_o_g_r_a_m$elm_life$Types$Tick = function (a) {
 var _i_s_o_g_r_a_m$elm_life$Types$Reborn = {ctor: 'Reborn'};
 var _i_s_o_g_r_a_m$elm_life$Types$Dead = {ctor: 'Dead'};
 var _i_s_o_g_r_a_m$elm_life$Types$Live = {ctor: 'Live'};
-
-var _i_s_o_g_r_a_m$elm_life$LifeMatrix$livingCell = function (cell) {
-	return _elm_lang$core$Native_Utils.eq(cell, _i_s_o_g_r_a_m$elm_life$Types$Live) || _elm_lang$core$Native_Utils.eq(cell, _i_s_o_g_r_a_m$elm_life$Types$Reborn);
-};
-var _i_s_o_g_r_a_m$elm_life$LifeMatrix$transformCell = F2(
-	function (loc, matrix) {
-		var col = _chendrix$elm_matrix$Matrix$col(loc);
-		var row = _chendrix$elm_matrix$Matrix$row(loc);
-		var neighbors = A2(
-			_elm_lang$core$List$map,
-			function (x) {
-				return A2(_elm_lang$core$Maybe$withDefault, _i_s_o_g_r_a_m$elm_life$Types$Dead, x);
-			},
-			{
-				ctor: '::',
-				_0: A2(
-					_chendrix$elm_matrix$Matrix$get,
-					{ctor: '_Tuple2', _0: row - 1, _1: col - 1},
-					matrix),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_chendrix$elm_matrix$Matrix$get,
-						{ctor: '_Tuple2', _0: row - 1, _1: col},
-						matrix),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_chendrix$elm_matrix$Matrix$get,
-							{ctor: '_Tuple2', _0: row - 1, _1: col + 1},
-							matrix),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_chendrix$elm_matrix$Matrix$get,
-								{ctor: '_Tuple2', _0: row, _1: col - 1},
-								matrix),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_chendrix$elm_matrix$Matrix$get,
-									{ctor: '_Tuple2', _0: row, _1: col + 1},
-									matrix),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_chendrix$elm_matrix$Matrix$get,
-										{ctor: '_Tuple2', _0: row + 1, _1: col - 1},
-										matrix),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_chendrix$elm_matrix$Matrix$get,
-											{ctor: '_Tuple2', _0: row + 1, _1: col},
-											matrix),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_chendrix$elm_matrix$Matrix$get,
-												{ctor: '_Tuple2', _0: row + 1, _1: col + 1},
-												matrix),
-											_1: {ctor: '[]'}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			});
-		var liveNeighbors = _elm_lang$core$List$length(
-			A2(_elm_lang$core$List$filter, _i_s_o_g_r_a_m$elm_life$LifeMatrix$livingCell, neighbors));
-		var cell = A2(
-			_elm_lang$core$Maybe$withDefault,
-			_i_s_o_g_r_a_m$elm_life$Types$Dead,
-			A2(_chendrix$elm_matrix$Matrix$get, loc, matrix));
-		var isAlive = _i_s_o_g_r_a_m$elm_life$LifeMatrix$livingCell(cell);
-		return ((!isAlive) && _elm_lang$core$Native_Utils.eq(liveNeighbors, 3)) ? _i_s_o_g_r_a_m$elm_life$Types$Reborn : ((_elm_lang$core$Native_Utils.cmp(liveNeighbors, 2) < 0) ? _i_s_o_g_r_a_m$elm_life$Types$Dead : ((isAlive && ((_elm_lang$core$Native_Utils.cmp(liveNeighbors, 1) > 0) && (_elm_lang$core$Native_Utils.cmp(liveNeighbors, 4) < 0))) ? cell : ((_elm_lang$core$Native_Utils.cmp(liveNeighbors, 3) > 0) ? _i_s_o_g_r_a_m$elm_life$Types$Dead : cell)));
-	});
-var _i_s_o_g_r_a_m$elm_life$LifeMatrix$evolve = function (matrix) {
-	var m = _chendrix$elm_matrix$Matrix$fromList(matrix);
-	var transformed = A2(
-		_chendrix$elm_matrix$Matrix$mapWithLocation,
-		F2(
-			function (location, _p0) {
-				return A2(_i_s_o_g_r_a_m$elm_life$LifeMatrix$transformCell, location, m);
-			}),
-		m);
-	return _chendrix$elm_matrix$Matrix$toList(transformed);
-};
-var _i_s_o_g_r_a_m$elm_life$LifeMatrix$numToCell = function (i) {
-	var _p1 = i;
-	if (_p1 === 0) {
-		return _i_s_o_g_r_a_m$elm_life$Types$Dead;
-	} else {
-		return _i_s_o_g_r_a_m$elm_life$Types$Live;
-	}
-};
-var _i_s_o_g_r_a_m$elm_life$LifeMatrix$numberOfColumns = 20;
-var _i_s_o_g_r_a_m$elm_life$LifeMatrix$chunkIntoRows = F2(
-	function (cells, rows) {
-		chunkIntoRows:
-		while (true) {
-			if (_elm_lang$core$Native_Utils.cmp(
-				_elm_lang$core$List$length(cells),
-				0) > 0) {
-				var newRow = {
-					ctor: '::',
-					_0: A2(_elm_lang$core$List$take, _i_s_o_g_r_a_m$elm_life$LifeMatrix$numberOfColumns, cells),
-					_1: {ctor: '[]'}
-				};
-				var rowsConcat = (_elm_lang$core$Native_Utils.cmp(
-					_elm_lang$core$List$length(rows),
-					0) > 0) ? A2(_elm_lang$core$Basics_ops['++'], rows, newRow) : newRow;
-				var _v1 = A2(_elm_lang$core$List$drop, _i_s_o_g_r_a_m$elm_life$LifeMatrix$numberOfColumns, cells),
-					_v2 = rowsConcat;
-				cells = _v1;
-				rows = _v2;
-				continue chunkIntoRows;
-			} else {
-				return rows;
-			}
-		}
-	});
-var _i_s_o_g_r_a_m$elm_life$LifeMatrix$numberOfRows = 10;
-var _i_s_o_g_r_a_m$elm_life$LifeMatrix$initialMatrix = function (randomSeed) {
-	var _p2 = A2(
-		_elm_lang$core$Random$step,
-		A2(
-			_elm_lang$core$Random$list,
-			_i_s_o_g_r_a_m$elm_life$LifeMatrix$numberOfRows * _i_s_o_g_r_a_m$elm_life$LifeMatrix$numberOfColumns,
-			A2(_elm_lang$core$Random$int, 0, 1)),
-		_elm_lang$core$Random$initialSeed(
-			_elm_lang$core$Basics$round(randomSeed)));
-	var cells = _p2._0;
-	return A2(
-		_i_s_o_g_r_a_m$elm_life$LifeMatrix$chunkIntoRows,
-		A2(_elm_lang$core$List$map, _i_s_o_g_r_a_m$elm_life$LifeMatrix$numToCell, cells),
-		{ctor: '[]'});
-};
-
-var _i_s_o_g_r_a_m$elm_life$State$subscriptions = function (model) {
-	return A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _i_s_o_g_r_a_m$elm_life$Types$Tick);
-};
-var _i_s_o_g_r_a_m$elm_life$State$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		if (_p0.ctor === 'Tick') {
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						matrix: _i_s_o_g_r_a_m$elm_life$LifeMatrix$evolve(model.matrix)
-					}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
-		} else {
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						matrix: _i_s_o_g_r_a_m$elm_life$LifeMatrix$initialMatrix(_p0._0)
-					}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
-		}
-	});
-var _i_s_o_g_r_a_m$elm_life$State$init = {
-	ctor: '_Tuple2',
-	_0: {
-		matrix: {
-			ctor: '::',
-			_0: {ctor: '[]'},
-			_1: {ctor: '[]'}
-		}
-	},
-	_1: A2(_elm_lang$core$Task$perform, _i_s_o_g_r_a_m$elm_life$Types$SeedMatrix, _elm_lang$core$Time$now)
-};
 
 var _i_s_o_g_r_a_m$elm_life$Shapes$diamonds = function (color) {
 	return A2(
@@ -9879,6 +10014,8 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$red = '#ff2626';
 var _i_s_o_g_r_a_m$elm_life$View$greenDiamonds = _i_s_o_g_r_a_m$elm_life$Shapes$diamonds(_i_s_o_g_r_a_m$elm_life$Shapes$green);
 var _i_s_o_g_r_a_m$elm_life$View$redCross = _i_s_o_g_r_a_m$elm_life$Shapes$cross(_i_s_o_g_r_a_m$elm_life$Shapes$red);
 var _i_s_o_g_r_a_m$elm_life$View$blueDisc = _i_s_o_g_r_a_m$elm_life$Shapes$disc(_i_s_o_g_r_a_m$elm_life$Shapes$blue);
+var _i_s_o_g_r_a_m$elm_life$View$cellHeight = 70;
+var _i_s_o_g_r_a_m$elm_life$View$cellWidth = 60;
 var _i_s_o_g_r_a_m$elm_life$View$renderCell = function (cell) {
 	return A2(
 		_elm_lang$svg$Svg$svg,
@@ -9893,10 +10030,12 @@ var _i_s_o_g_r_a_m$elm_life$View$renderCell = function (cell) {
 					_0: _elm_lang$svg$Svg_Attributes$y('0'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$svg$Svg_Attributes$width('60'),
+						_0: _elm_lang$svg$Svg_Attributes$width(
+							_elm_lang$core$Basics$toString(_i_s_o_g_r_a_m$elm_life$View$cellWidth)),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$svg$Svg_Attributes$height('70'),
+							_0: _elm_lang$svg$Svg_Attributes$height(
+								_elm_lang$core$Basics$toString(_i_s_o_g_r_a_m$elm_life$View$cellHeight)),
 							_1: {ctor: '[]'}
 						}
 					}
@@ -9948,7 +10087,11 @@ var _i_s_o_g_r_a_m$elm_life$View$view = function (model) {
 				{
 					ctor: '::',
 					_0: {ctor: '_Tuple2', _0: 'text-align', _1: 'center'},
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'margin-top', _1: '20px'},
+						_1: {ctor: '[]'}
+					}
 				}),
 			_1: {ctor: '[]'}
 		},
@@ -9971,6 +10114,224 @@ var _i_s_o_g_r_a_m$elm_life$View$view = function (model) {
 			},
 			model.matrix));
 };
+
+var _i_s_o_g_r_a_m$elm_life$LifeMatrix$chunkIntoRows = F3(
+	function (cells, cols, rows) {
+		chunkIntoRows:
+		while (true) {
+			if (_elm_lang$core$Native_Utils.cmp(
+				_elm_lang$core$List$length(cells),
+				0) > 0) {
+				var newRow = {
+					ctor: '::',
+					_0: A2(_elm_lang$core$List$take, cols, cells),
+					_1: {ctor: '[]'}
+				};
+				var rowsConcat = (_elm_lang$core$Native_Utils.cmp(
+					_elm_lang$core$List$length(rows),
+					0) > 0) ? A2(_elm_lang$core$Basics_ops['++'], rows, newRow) : newRow;
+				var _v0 = A2(_elm_lang$core$List$drop, cols, cells),
+					_v1 = cols,
+					_v2 = rowsConcat;
+				cells = _v0;
+				cols = _v1;
+				rows = _v2;
+				continue chunkIntoRows;
+			} else {
+				return rows;
+			}
+		}
+	});
+var _i_s_o_g_r_a_m$elm_life$LifeMatrix$livingCell = function (cell) {
+	return _elm_lang$core$Native_Utils.eq(cell, _i_s_o_g_r_a_m$elm_life$Types$Live) || _elm_lang$core$Native_Utils.eq(cell, _i_s_o_g_r_a_m$elm_life$Types$Reborn);
+};
+var _i_s_o_g_r_a_m$elm_life$LifeMatrix$transformCell = F2(
+	function (loc, matrix) {
+		var col = _chendrix$elm_matrix$Matrix$col(loc);
+		var row = _chendrix$elm_matrix$Matrix$row(loc);
+		var neighbors = A2(
+			_elm_lang$core$List$map,
+			function (x) {
+				return A2(_elm_lang$core$Maybe$withDefault, _i_s_o_g_r_a_m$elm_life$Types$Dead, x);
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_chendrix$elm_matrix$Matrix$get,
+					{ctor: '_Tuple2', _0: row - 1, _1: col - 1},
+					matrix),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_chendrix$elm_matrix$Matrix$get,
+						{ctor: '_Tuple2', _0: row - 1, _1: col},
+						matrix),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_chendrix$elm_matrix$Matrix$get,
+							{ctor: '_Tuple2', _0: row - 1, _1: col + 1},
+							matrix),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_chendrix$elm_matrix$Matrix$get,
+								{ctor: '_Tuple2', _0: row, _1: col - 1},
+								matrix),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_chendrix$elm_matrix$Matrix$get,
+									{ctor: '_Tuple2', _0: row, _1: col + 1},
+									matrix),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_chendrix$elm_matrix$Matrix$get,
+										{ctor: '_Tuple2', _0: row + 1, _1: col - 1},
+										matrix),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_chendrix$elm_matrix$Matrix$get,
+											{ctor: '_Tuple2', _0: row + 1, _1: col},
+											matrix),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_chendrix$elm_matrix$Matrix$get,
+												{ctor: '_Tuple2', _0: row + 1, _1: col + 1},
+												matrix),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			});
+		var liveNeighbors = _elm_lang$core$List$length(
+			A2(_elm_lang$core$List$filter, _i_s_o_g_r_a_m$elm_life$LifeMatrix$livingCell, neighbors));
+		var cell = A2(
+			_elm_lang$core$Maybe$withDefault,
+			_i_s_o_g_r_a_m$elm_life$Types$Dead,
+			A2(_chendrix$elm_matrix$Matrix$get, loc, matrix));
+		var isAlive = _i_s_o_g_r_a_m$elm_life$LifeMatrix$livingCell(cell);
+		return ((!isAlive) && _elm_lang$core$Native_Utils.eq(liveNeighbors, 3)) ? _i_s_o_g_r_a_m$elm_life$Types$Reborn : ((_elm_lang$core$Native_Utils.cmp(liveNeighbors, 2) < 0) ? _i_s_o_g_r_a_m$elm_life$Types$Dead : ((isAlive && ((_elm_lang$core$Native_Utils.cmp(liveNeighbors, 1) > 0) && (_elm_lang$core$Native_Utils.cmp(liveNeighbors, 4) < 0))) ? cell : ((_elm_lang$core$Native_Utils.cmp(liveNeighbors, 3) > 0) ? _i_s_o_g_r_a_m$elm_life$Types$Dead : cell)));
+	});
+var _i_s_o_g_r_a_m$elm_life$LifeMatrix$evolve = function (matrix) {
+	var m = _chendrix$elm_matrix$Matrix$fromList(matrix);
+	var transformed = A2(
+		_chendrix$elm_matrix$Matrix$mapWithLocation,
+		F2(
+			function (location, _p0) {
+				return A2(_i_s_o_g_r_a_m$elm_life$LifeMatrix$transformCell, location, m);
+			}),
+		m);
+	return _chendrix$elm_matrix$Matrix$toList(transformed);
+};
+var _i_s_o_g_r_a_m$elm_life$LifeMatrix$numToCell = function (i) {
+	var _p1 = i;
+	if (_p1 === 0) {
+		return _i_s_o_g_r_a_m$elm_life$Types$Dead;
+	} else {
+		return _i_s_o_g_r_a_m$elm_life$Types$Live;
+	}
+};
+var _i_s_o_g_r_a_m$elm_life$LifeMatrix$numberOfColumns = function (windowWidth) {
+	var buffer = 1;
+	return ((windowWidth / _i_s_o_g_r_a_m$elm_life$View$cellWidth) | 0) - buffer;
+};
+var _i_s_o_g_r_a_m$elm_life$LifeMatrix$numberOfRows = function (windowHeight) {
+	return (windowHeight / _i_s_o_g_r_a_m$elm_life$View$cellHeight) | 0;
+};
+var _i_s_o_g_r_a_m$elm_life$LifeMatrix$initialMatrix = F2(
+	function (randomSeed, windowSize) {
+		var cols = _i_s_o_g_r_a_m$elm_life$LifeMatrix$numberOfColumns(windowSize.width);
+		var rows = _i_s_o_g_r_a_m$elm_life$LifeMatrix$numberOfRows(windowSize.height);
+		var _p2 = A2(
+			_elm_lang$core$Random$step,
+			A2(
+				_elm_lang$core$Random$list,
+				rows * cols,
+				A2(_elm_lang$core$Random$int, 0, 1)),
+			_elm_lang$core$Random$initialSeed(
+				_elm_lang$core$Basics$round(randomSeed)));
+		var cells = _p2._0;
+		return A3(
+			_i_s_o_g_r_a_m$elm_life$LifeMatrix$chunkIntoRows,
+			A2(_elm_lang$core$List$map, _i_s_o_g_r_a_m$elm_life$LifeMatrix$numToCell, cells),
+			cols,
+			{ctor: '[]'});
+	});
+
+var _i_s_o_g_r_a_m$elm_life$State$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$batch(
+		{
+			ctor: '::',
+			_0: A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _i_s_o_g_r_a_m$elm_life$Types$Tick),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$window$Window$resizes(_i_s_o_g_r_a_m$elm_life$Types$ResizeWindow),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _i_s_o_g_r_a_m$elm_life$State$matrixSeedData = A2(
+	_elm_lang$core$Task$andThen,
+	function (now) {
+		return A2(
+			_elm_lang$core$Task$map,
+			function (size) {
+				return {ctor: '_Tuple2', _0: now, _1: size};
+			},
+			_elm_lang$window$Window$size);
+	},
+	_elm_lang$core$Time$now);
+var _i_s_o_g_r_a_m$elm_life$State$init = {
+	ctor: '_Tuple2',
+	_0: {
+		matrix: {
+			ctor: '::',
+			_0: {ctor: '[]'},
+			_1: {ctor: '[]'}
+		}
+	},
+	_1: A2(_elm_lang$core$Task$perform, _i_s_o_g_r_a_m$elm_life$Types$SeedMatrix, _i_s_o_g_r_a_m$elm_life$State$matrixSeedData)
+};
+var _i_s_o_g_r_a_m$elm_life$State$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'Tick':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							matrix: _i_s_o_g_r_a_m$elm_life$LifeMatrix$evolve(model.matrix)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SeedMatrix':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							matrix: A2(_i_s_o_g_r_a_m$elm_life$LifeMatrix$initialMatrix, _p0._0._0, _p0._0._1)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: A2(_elm_lang$core$Task$perform, _i_s_o_g_r_a_m$elm_life$Types$SeedMatrix, _i_s_o_g_r_a_m$elm_life$State$matrixSeedData)
+				};
+		}
+	});
 
 var _i_s_o_g_r_a_m$elm_life$Main$main = _elm_lang$html$Html$program(
 	{init: _i_s_o_g_r_a_m$elm_life$State$init, view: _i_s_o_g_r_a_m$elm_life$View$view, update: _i_s_o_g_r_a_m$elm_life$State$update, subscriptions: _i_s_o_g_r_a_m$elm_life$State$subscriptions})();

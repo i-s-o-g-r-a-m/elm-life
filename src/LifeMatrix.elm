@@ -5,16 +5,22 @@ import Matrix
 import Maybe exposing (withDefault)
 import Random
 import Types exposing (..)
+import View exposing (cellWidth, cellHeight)
+import Window
 
 
-numberOfRows : number
-numberOfRows =
-    10
+numberOfRows : Int -> Int
+numberOfRows windowHeight =
+    windowHeight // cellHeight
 
 
-numberOfColumns : number
-numberOfColumns =
-    20
+numberOfColumns : Int -> Int
+numberOfColumns windowWidth =
+    let
+        buffer =
+            1
+    in
+        (windowWidth // cellWidth) - buffer
 
 
 numToCell : number -> Cell
@@ -32,12 +38,12 @@ livingCell cell =
     cell == Live || cell == Reborn
 
 
-chunkIntoRows : List a -> List (List a) -> List (List a)
-chunkIntoRows cells rows =
+chunkIntoRows : List a -> Int -> List (List a) -> List (List a)
+chunkIntoRows cells cols rows =
     if List.length cells > 0 then
         let
             newRow =
-                [ List.take numberOfColumns cells ]
+                [ List.take cols cells ]
 
             rowsConcat =
                 if List.length rows > 0 then
@@ -45,20 +51,26 @@ chunkIntoRows cells rows =
                 else
                     newRow
         in
-            chunkIntoRows (List.drop numberOfColumns cells) rowsConcat
+            chunkIntoRows (List.drop cols cells) cols rowsConcat
     else
         rows
 
 
-initialMatrix : Float -> List (List Cell)
-initialMatrix randomSeed =
+initialMatrix : Float -> Window.Size -> List (List Cell)
+initialMatrix randomSeed windowSize =
     let
+        rows =
+            numberOfRows windowSize.height
+
+        cols =
+            numberOfColumns windowSize.width
+
         ( cells, _ ) =
             Random.step
-                (Random.list (numberOfRows * numberOfColumns) (Random.int 0 1))
+                (Random.list (rows * cols) (Random.int 0 1))
                 (Random.initialSeed (round randomSeed))
     in
-        chunkIntoRows (List.map numToCell cells) []
+        chunkIntoRows (List.map numToCell cells) cols []
 
 
 evolve : List (List Cell) -> List (List Cell)
