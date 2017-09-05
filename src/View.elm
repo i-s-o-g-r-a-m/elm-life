@@ -36,23 +36,35 @@ renderCell cell =
         ]
         (case (cell) of
             Live ->
-                [ blueDisc, redCross ]
+                [ coloredDisc, coloredCross ]
 
             Dead ->
-                [ redCross ]
+                [ coloredCross ]
 
             Reborn ->
-                [ blueDisc, redCross, greenDiamonds ]
+                [ coloredDisc, coloredCross, coloredDiamonds ]
         )
 
 
-blueDisc =
-    disc blue
+coloredDisc =
+    disc red
 
 
-redCross =
-    cross red
+coloredCross =
+    cross grey
 
 
-greenDiamonds =
+coloredDiamonds =
     diamonds green
+
+
+red =
+    "#ff2626"
+
+
+grey =
+    "#888888"
+
+
+green =
+    "#08f42c"

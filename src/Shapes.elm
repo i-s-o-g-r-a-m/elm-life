@@ -4,22 +4,10 @@ import Svg exposing (..)
 import Svg.Attributes exposing (..)
 
 
-red =
-    "#ff2626"
-
-
-blue =
-    "#1e74ff"
-
-
-green =
-    "#08f42c"
-
-
 disc color =
     g
         []
-        [ circle [ cx "28", cy "42", r "25", fill color, fillOpacity ".55" ] []
+        [ circle [ cx "28", cy "42", r "25", fill color, fillOpacity ".5" ] []
         , circle [ cx "28", cy "42", r "18", fill "#ffffff", fillOpacity "1" ] []
         ]
 

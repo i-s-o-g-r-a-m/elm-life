@@ -9969,7 +9969,7 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$disc = function (color) {
 								_0: _elm_lang$svg$Svg_Attributes$fill(color),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.55'),
+									_0: _elm_lang$svg$Svg_Attributes$fillOpacity('.5'),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -10007,13 +10007,13 @@ var _i_s_o_g_r_a_m$elm_life$Shapes$disc = function (color) {
 			}
 		});
 };
-var _i_s_o_g_r_a_m$elm_life$Shapes$green = '#08f42c';
-var _i_s_o_g_r_a_m$elm_life$Shapes$blue = '#1e74ff';
-var _i_s_o_g_r_a_m$elm_life$Shapes$red = '#ff2626';
 
-var _i_s_o_g_r_a_m$elm_life$View$greenDiamonds = _i_s_o_g_r_a_m$elm_life$Shapes$diamonds(_i_s_o_g_r_a_m$elm_life$Shapes$green);
-var _i_s_o_g_r_a_m$elm_life$View$redCross = _i_s_o_g_r_a_m$elm_life$Shapes$cross(_i_s_o_g_r_a_m$elm_life$Shapes$red);
-var _i_s_o_g_r_a_m$elm_life$View$blueDisc = _i_s_o_g_r_a_m$elm_life$Shapes$disc(_i_s_o_g_r_a_m$elm_life$Shapes$blue);
+var _i_s_o_g_r_a_m$elm_life$View$green = '#08f42c';
+var _i_s_o_g_r_a_m$elm_life$View$grey = '#888888';
+var _i_s_o_g_r_a_m$elm_life$View$red = '#ff2626';
+var _i_s_o_g_r_a_m$elm_life$View$coloredDiamonds = _i_s_o_g_r_a_m$elm_life$Shapes$diamonds(_i_s_o_g_r_a_m$elm_life$View$green);
+var _i_s_o_g_r_a_m$elm_life$View$coloredCross = _i_s_o_g_r_a_m$elm_life$Shapes$cross(_i_s_o_g_r_a_m$elm_life$View$grey);
+var _i_s_o_g_r_a_m$elm_life$View$coloredDisc = _i_s_o_g_r_a_m$elm_life$Shapes$disc(_i_s_o_g_r_a_m$elm_life$View$red);
 var _i_s_o_g_r_a_m$elm_life$View$cellHeight = 70;
 var _i_s_o_g_r_a_m$elm_life$View$cellWidth = 60;
 var _i_s_o_g_r_a_m$elm_life$View$renderCell = function (cell) {
@@ -10048,29 +10048,29 @@ var _i_s_o_g_r_a_m$elm_life$View$renderCell = function (cell) {
 				case 'Live':
 					return {
 						ctor: '::',
-						_0: _i_s_o_g_r_a_m$elm_life$View$blueDisc,
+						_0: _i_s_o_g_r_a_m$elm_life$View$coloredDisc,
 						_1: {
 							ctor: '::',
-							_0: _i_s_o_g_r_a_m$elm_life$View$redCross,
+							_0: _i_s_o_g_r_a_m$elm_life$View$coloredCross,
 							_1: {ctor: '[]'}
 						}
 					};
 				case 'Dead':
 					return {
 						ctor: '::',
-						_0: _i_s_o_g_r_a_m$elm_life$View$redCross,
+						_0: _i_s_o_g_r_a_m$elm_life$View$coloredCross,
 						_1: {ctor: '[]'}
 					};
 				default:
 					return {
 						ctor: '::',
-						_0: _i_s_o_g_r_a_m$elm_life$View$blueDisc,
+						_0: _i_s_o_g_r_a_m$elm_life$View$coloredDisc,
 						_1: {
 							ctor: '::',
-							_0: _i_s_o_g_r_a_m$elm_life$View$redCross,
+							_0: _i_s_o_g_r_a_m$elm_life$View$coloredCross,
 							_1: {
 								ctor: '::',
-								_0: _i_s_o_g_r_a_m$elm_life$View$greenDiamonds,
+								_0: _i_s_o_g_r_a_m$elm_life$View$coloredDiamonds,
 								_1: {ctor: '[]'}
 							}
 						}
